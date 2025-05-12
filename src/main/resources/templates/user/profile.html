@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{base::layout(~{::section})}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <section>
+      <div class="container-fluid mt-5 p-5 bg-light">
+        <div class="row">
+          <div class="col-md-10 offset-md-1">
+            <p class="fs-3 text-center">My Profile</p>
+            <hr />
+            <th:block th:if="${session.sucMsg}">
+				<p class="text-success fw-bold" th:text="${session.sucMsg}"></p>
+				<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+			</th:block>
+			<th:block th:if="${session.errorMsg}">
+                <p class="text-danger fw-bold" th:text="${session.errorMsg}"></p>
+				<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+			</th:block>
+
+            <div class="text-center">
+              <img
+                th:src="${user.profileImage}"
+                alt=""
+                class="border p-2"
+                style="width: 130px; height: 130px; border-radius: 50%"
+              />
+            </div>
+            <div class="col-md-6 offset-md-3 mt-4">
+              <table class="table table-hover table-borderless">
+                
+                  <tbody class="table-group-divider">
+                    <form action="/user/update-profile" method="post" enctype="multipart/form-data">
+                    <tr>
+                      <th scope="row">Name</th>
+                      <td>:</td>
+                      <td>
+                        <input
+                          type="text"
+                          name="name"
+                          class="form-control"
+                          th:value="${user.name}"
+                        />
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row">Mobile</th>
+                      <td>:</td>
+                      <td>
+                        <input
+                          type="text"
+                          name="mobileNo"
+                          class="form-control"
+                          th:value="${user.mobileNo}"
+                        />
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row">Email</th>
+                      <td>:</td>
+                      <td>
+                        <input
+                          type="text"
+                          name=""
+                          class="form-control"
+                          th:value="${user.email}"
+                          readonly
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Image</th>
+                        <td>:</td>
+                        <td>
+                          <input
+                            type="file"
+                            name="img"
+                            class="form-control"
+                            value=""
+                          />
+                        </td>
+                      </tr>
+
+                    <tr>
+                      <th scope="row">Address</th>
+                      <td>:</td>
+                      <td>
+                        <input
+                          type="text"
+                          name="address"
+                          class="form-control"
+                          th:value="${user.address}"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">City</th>
+                      <td>:</td>
+                      <td>
+                        <input
+                          type="text"
+                          name="city"
+                          class="form-control"
+                          th:value="${user.city}"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">State</th>
+                      <td>:</td>
+                      <td>
+                        <input
+                          type="text"
+                          name="state"
+                          class="form-control"
+                          th:value="${user.state}"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Pincode</th>
+                      <td>:</td>
+                      <td>
+                        <input
+                          type="text"
+                          name="pincode"
+                          class="form-control"
+                          th:value="${user.pincode}"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Role</th>
+                      <td>:</td>
+                      <td>
+                        <input
+                          type="text"
+                          name=""
+                          class="form-control"
+                          th:value="${user.role}"
+                          readonly
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Account Status</th>
+                      <td>:</td>
+                      <td>
+                        <input
+                          type="text"
+                          name=""
+                          class="form-control"
+                          th:value="${user.isEnable}"
+                          readonly
+                        />
+                        <input type="hidden" th:value="${user.id}" name="id">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">
+                        <button
+                          type="submit"
+                          class="btn btn-dark rounded-3 d-flex align-items-center gap-1 px-3"
+                        >
+                          Update
+                        </button>
+                      </td>
+                    </tr>
+                </form>
+                </tbody>
+              </table>
+            </div>
+            <hr>
+            <div class="col-md-6 offset-md-3 mt-2">
+                <div class="row">
+                    <p class="text-center h6 mb-2">Change Password</p>
+                    <table class="table table-hover table-borderless w-auto mx-auto">
+                        <tbody class="table-group-divider">
+                            <form action="/user/change-password" method="post">
+                                <tr>
+                                    <th scope="row" class="small text-end">Current Password</th>
+                                    <td>
+                                        <input type="password" name="curPassword" class="form-control form-control-sm" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="small text-end">New Password</th>
+                                    <td>
+                                        <input type="password" name="newPassword" class="form-control form-control-sm" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="small text-end">Confirm Password</th>
+                                    <td>
+                                        <input type="password" name="confirmPassword" class="form-control form-control-sm" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-center">
+                                        <button type="submit" class="btn btn-dark btn-sm rounded-2 px-3 py-1">
+                                            Update
+                                        </button>
+                                    </td>
+                                </tr>
+                            </form>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

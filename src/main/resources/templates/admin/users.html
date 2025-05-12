@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+		th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>View User</title>
+	<link rel="stylesheet" href="/css/style.css">	
+</head>
+<body>
+    <section>
+        <div class="container-fluid mt-5 p-2">
+            <div class="card card-sh">
+                <div class="card-header text-center">
+                    <div class="mb-3 text-start">
+                        <a href="/admin/" class="btn btn-outline-dark btn-sm rounded-3 align-items-center gap-1">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Back to Admin
+                        </a>
+                    </div>
+                    <p class="fs-4 fw-bold" th:if="${userType == 1}">Users</p>
+                    <p class="fs-4 fw-bold" th:unless="${userType == 1}">Admins</p>
+                    <th:block th:if="${session.sucMsg}">
+                        <p class="text-success fw-bold" th:text="${session.sucMsg}"></p>
+                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+                    <th:block th:if="${session.errorMsg}">
+                        <p class="text-danger fw-bold" th:text="${session.errorMsg}"></p>
+                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                    </th:block>
+                </div>
+                <div class="card-body text-center">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Sl No.</th>
+                                <th scope="col">Profile</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Mobile No.</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr th:each="user,c:${users}">
+                                <th scope="row">[[${c.count}]]</th>
+                                <td><img th:src="@{'/profile_img/' + ${user.profileImage}}" width="70px" height="70px"></td>
+                                <td>[[${user.name}]]</td>
+                                <td>[[${user.email}]]</td>
+                                <td>[[${user.mobileNo}]]</td>
+                                <td>[[${user.address+','+user.city+','+user.state+','+user.pincode}]]</td>
+                                <td>[[${user.isEnable}]]</td>
+                                <td>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-primary" 
+                                        th:attr="onclick='location.href=\'/admin/updateStatus?status=true&id=' + ${user.id} + '&type=' +${userType}+'\''">
+                                            Active
+                                        </button>
+                                        <button class="btn btn-danger"
+                                         th:attr="onclick='location.href=\'/admin/updateStatus?status=false&id=' + ${user.id} + '&type=' +${userType}+'\''">
+                                            Inactive
+                                        </button>                                                                  
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+        </div>  
+    </section>
+</body>
+</html>

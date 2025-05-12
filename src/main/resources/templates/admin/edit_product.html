@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+		th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Product Page</title>
+	<link rel="stylesheet" href="/css/style.css">	
+</head>
+<body>
+
+	<section>
+		<!-- Start Category Mode -->
+		<div class="container p-5 mt-3">
+			<hr>
+			<div class="mb-3 text-start">
+				<a href="/admin/view_products" class="btn btn-outline-dark btn-sm rounded-3 align-items-center gap-1">
+					<i class="fa-solid fa-arrow-left"></i>
+					Back to Admin
+				</a>
+			</div>
+			<div class="row p-5">
+				
+				<div class="col-md-8 offset-md-2 mb-4">
+					<div class="card card-sh">
+						<div class="card-header text-center">
+							<p class="fs-4">Edit Product</p>
+							<th:block th:if="${session.sucMsg}">
+								<p class="text-success fw-bold" th:text="${session.sucMsg}"></p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+							</th:block>
+							<th:block th:if="${session.errorMsg}">
+								<p class="text-danger fw-bold" th:text="${session.errorMsg}"></p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+							</th:block>
+						</div>
+						<div class="card-body text-center text-primary">
+							<form action="/admin/updateProduct" method="post"
+							enctype="multipart/form-data">
+							<input type="hidden" name="id" th:value="${product.id}">
+								<div class="mb-3">
+									<label>Enter Title</label>
+									<input type="text" name="title" class="form-control"
+									th:value="${product.title}">
+								</div>
+								
+								<div class="mb-3">
+									<label>Enter Description</label>
+									<textarea rows="3" cols="" class="form-control" name="description">
+										[[${product.description}]]
+									</textarea>
+								</div>
+								<div class="row">
+									<div class="mb-3 col">
+										<label>Category</label>
+										<select class="form-control" name="category">
+											<option>[[${product.category}]]</option>
+											<option th:each="c:${categories}">[[${c.name}]]</option>	
+										</select>	
+									</div>	
+									<div class="mb-3 col">
+										<label>Enter Price</label>
+										<input type="number" name="price" class="form-control"
+											th:value="${product.price}">
+									</div>
+								</div>	
+								
+								<div class="row">
+									<div class="mb-3 col">
+										<label>Discount</label>
+										<input type="number" name="discount" class="form-control"
+											th:value="${product.discount}">	
+									</div>	
+									<div class="mb-3 col">
+										<label>Discount Price</label>
+										<input type="number" class="form-control" readonly
+											th:value="${product.discountPrice}">
+									</div>
+								</div>	
+
+								<div class="mb-3 d-flex align-items-center gap-3">
+									<label>Status</label>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="isActive" 
+										id="flexRadioDefault1" th:checked="${product.isActive==true}" value="true">
+										<label class="form-check-label" for="flexRadioDefault1">
+										  Active
+										</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="isActive"
+										th:checked="${product.isActive==false}"
+										id="flexRadioDefault2" value="false">
+										<label class="form-check-label" for="flexRadioDefault2">
+										  Inactive
+										</label>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="mb-3 col">
+										<label>Enter Stock</label>
+										<input type="number" name="stock" class="form-control"
+										th:value="${product.stock}">
+									</div>
+									<div class="mb-3 col">
+										<label>Upload Image</label>
+										<input type="file" name="file" class="form-control">
+									</div>
+									<div class="mt-1">
+										<img th:src="${product.image}" width="100px" height="100px">
+									</div>
+								</div>
+								
+								<button class="btn btn-primary col-md-12" 
+									style="background-color: orange; border-color: orange;">Update</button>
+
+							</form>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<!-- End Category Mode -->
+		
+	</section>  
+</body>
+</html>
+ 

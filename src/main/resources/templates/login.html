@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Page</title>
+	
+</head>
+<body>
+	<section>
+		<div class="container p-5">
+			<div class="row align-items-center justify-content-center">
+				<!-- Image Section -->
+				<div class="col-md-6 p-5">
+					<img alt="E-commerce Image" src="https://mstrader-banner.s3.ap-south-1.amazonaws.com/ecom.png" width="100%">
+				</div>
+				
+				<!-- Login Form Section -->
+				<div class="col-md-6 p-5">
+					<div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+						<div class="card-header">
+							<p class="fs-3 text-center">Welcome Back</p>
+							<div th:if="${param.error}" class="alert alert-danger text-center">
+								[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
+							</div>
+							<div th:if="${param.logout}" class="alert alert-success text-center">
+								Logout Successfully
+							</div>							
+						</div>
+						<div class="card-body">
+							<form action="/login" method="post">
+								<div class="mb-4">
+									<label class="form-label">E-Mail</label>
+									<input class="form-control" name="username" type="email" placeholder="Enter your email" required>
+								</div>
+								<div class="mb-4">
+									<label class="form-label">Password</label>
+									<input class="form-control" name="password" type="password" placeholder="Enter your password" required>
+								</div>
+								<div class="mb-3 text-end">
+									<button type="submit" class="btn col-md-12 btn-primary text-white">Login</button>
+								</div>
+							</form>
+						</div>
+						<div class="card-footer text-center">
+							<a th:href="@{/forgotPassword}" class="text-decoration-none">Forgot Password?</a>
+							<p>New to the platform? <a href="/register" class="text-decoration-none" >Create an account</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>    
+
+</body>
+</html>

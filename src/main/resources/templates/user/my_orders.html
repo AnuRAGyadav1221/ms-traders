@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Order Details Page</title>
+	
+</head>
+<body>
+	<section>
+		<div class="container mt-5 p-5">
+            <div class="row">
+                <p class="text-center fs-3 category-title">My Orders</p>
+                <th:block th:if="${session.sucMsg}">
+					<p class="text-success fw-bold text-center" th:text="${session.sucMsg}"></p>
+					<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+				</th:block>
+				<th:block th:if="${session.errorMsg}">
+					<p class="text-danger fw-bold text-center" th:text="${session.errorMsg}"></p>
+					<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+				</th:block>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-striped table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Order ID</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Product</th>
+                                            <th scope="col">Product Details</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr th:each="order:${ordersList}">
+                                            <th scope="row">[[${order.orderId}]]</th>
+                                            <td>[[${order.orderDate}]]</td>
+                                            <td><img th:src="@{'/product_img/' + ${order.product.image}}" width="70px" height="70px"></td>
+                                            <td>[[${order.product.title}]]</td>
+                                            <td>
+                                                Quantity: [[${order.quantity}]] <br>
+                                                Unit Price: &#8377;[[${order.price}]] <br>
+                                                Total Price: &#8377;[[${order.quantity * order.price}]]
+                                            </td>
+                                            <td>
+                                                [[${order.status}]]
+                                            </td>
+                                            <td>
+                                                <th:block th:if="${order.status != 'Cancelled'}">
+                                                    <form th:action="@{/user/update-status}" method="post">
+                                                        <input type="hidden" name="id" th:value="${order.id}"/>
+                                                        <input type="hidden" name="st" value="6"/>
+                                                        <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                                                    </form>
+                                                </th:block>
+                                                <th:block th:unless="${order.status != 'Cancelled'}">
+                                                    <button class="btn btn-danger btn-sm disabled">Cancel</button>
+                                                </th:block>
+                                            
+                                                <a th:href="@{'/user/invoice/' + ${order.orderId}}" class="btn btn-success btn-sm mt-2">Download Invoice</a>
+                                            </td>                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+            </div>
+		</div>
+	</section>    
+
+</body>
+</html>

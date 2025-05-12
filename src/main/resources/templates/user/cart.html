@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+		th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart Page</title>
+	<link rel="stylesheet" href="/css/style.css">	
+</head>
+<body>
+    <section>
+        <div class="container-fluid mt-5 p-2">
+            <div class="card card-sh">
+                <div class="card-header text-center">
+                    <p class="fs-4 fw-bold">View Carts</p>
+                    <th:block th:if="${session.sucMsg}">
+                        <p class="text-success fw-bold" th:text="${session.sucMsg}"></p>
+                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+                    <th:block th:if="${session.errorMsg}">
+                        <p class="text-danger fw-bold" th:text="${session.errorMsg}"></p>
+                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                    </th:block>
+                </div>
+                <div class="card-body text-center">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sl No.</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col" class="text-center">Quantity</th>
+                                <th scope="col">Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr th:each="cart,c:${cartList}">
+                                <th scope="row">[[${c.count}]]</th>
+                                <td><img th:src="${cart.product.image}" width="70px" height="70px"></td>
+                                <td>[[${cart.product.title}]]</td>
+                                <td>&#8377; [[${cart.product.discountPrice}]]</td>
+                                <td class="text-center"> 
+                                    <a th:href="@{'/user/cartQuantityUpd?sy=de&cartId=' + ${cart.id}}"><i class="fa-solid fa-minus"></i></a>
+                                     [ [[${cart.quantity}]] ] 
+                                    <a th:href="@{'/user/cartQuantityUpd?sy=in&cartId=' + ${cart.id}}"><i class="fa-solid fa-plus"></i></a>
+                                </td>
+                                <td>&#8377; [[${cart.totalPrice}]]</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"></td>
+                                <td class="fw-bold">Total Price</td>
+                                <td class="fw-bold">&#8377; [[${totalOrderPrice}]]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="text-center">
+                        <th:block th:if="${countCart > 0}">
+                            <a href="/user/orders" class="btn btn-primary">Proceed Payment</a>
+                        </th:block>
+                        <th:block th:if="${countCart == 0}">
+                            <button class="btn btn-secondary" disabled>Cart is Empty</button>
+                        </th:block>
+                    </div>                    
+                </div>
+            </div>
+            </div>
+        </div>  
+    </section>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Forgot Password Page</title>
+    
+    
+
+
+</head>
+<body>
+	<section>
+		<div class="container p-5">
+			<div class="row align-items-center justify-content-center">
+				<!-- Image Section -->
+				<div class="col-md-6 p-5">
+					<img alt="E-commerce Image" src="https://mstrader-banner.s3.ap-south-1.amazonaws.com/ecom.png" width="100%">
+				</div>
+				
+				<!-- Login Form Section -->
+				<div class="col-md-6 p-5">
+					<div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+						<div class="card-header">
+							<p class="fs-3 text-center">Forgot Password</p>
+
+                            <div th:if="${sucMsg}" class="alert alert-success text-center">
+                                <p th:text="${sucMsg}"></p>
+                            </div>
+
+                            <!-- Error Message -->
+                            <div th:if="${errorMsg}" class="alert alert-danger text-center">
+                                <p th:text="${errorMsg}"></p>
+                            </div>
+						</div>
+						<div class="card-body">
+							<form action="/forgotPassword" method="post">
+								<div class="mb-4">
+									<label class="form-label">E-Mail</label>
+									<input class="form-control" name="email" type="email" placeholder="Enter your email" required>
+								</div>
+								
+								<div class="mb-3 text-end">
+									<button type="submit" class="btn btn-primary text-white">Send</button>
+								</div>
+							</form>
+						</div>
+						<div class="card-footer text-center bg-white">
+                            <a href="/signin" class="text-decoration-none">Back to Login</a>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>    
+
+</body>
+</html>

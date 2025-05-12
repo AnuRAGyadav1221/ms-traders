@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+		th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Page</title>
+</head>
+<body>
+	<section>
+		<div class="container mt-5 p-5">
+			<div class="row align-items-center justify-content-center">
+				<!-- Image Section -->
+				<div class="col-md-3 p-4">
+					<img alt="E-commerce Image" src="https://mstrader-banner.s3.ap-south-1.amazonaws.com/ecom.png" width="100%">
+				</div>
+				
+				<!-- Login Form Section -->
+				<div class="col-md-9 mt-1 p-4">
+					<div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+						<div class="card-header">
+							<p class="fs-3 text-center category-title mt-4">REGISTER</p>
+							<th:block th:if="${session.sucMsg}">
+								<p class="text-success fw-bold" th:text="${session.sucMsg}"></p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+							</th:block>
+							<th:block th:if="${session.errorMsg}">
+								<p class="text-danger fw-bold" th:text="${session.errorMsg}"></p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+							</th:block>
+						</div>
+						<div class="card-body">
+							<form action="/saveUser" enctype="multipart/form-data" method="post" id="userRegister">
+								<div class="row">
+									<div class="col mb-4">
+										<label class="form-label">Full Name </label>
+										<input class="form-control" name="name" type="text" placeholder="Enter your name" required>
+									</div>
+									<div class="col mb-4">
+										<label class="form-label">Mobile No.</label>
+										<input class="form-control" name="mobileNo" type="number" placeholder="Enter your mobile no." required>
+									</div>
+								</div>
+								
+								
+								<div class="mb-4">
+									<label class="form-label">E-Mail</label>
+									<input class="form-control" name="email" type="email" placeholder="Enter your email" required>
+								</div>
+								
+								
+								<div class="row">
+									<div class="col mb-4">
+										<label class="form-label">Address</label>
+										<input class="form-control" name="address" type="text" placeholder="Enter your address" required>
+									</div>
+									<div class="col mb-4">
+										<label class="form-label">City</label>
+										<input class="form-control" name="city" type="text" placeholder="Enter your city" required>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col mb-4">
+										<label class="form-label">State</label>
+										<input class="form-control" name="state" type="text" placeholder="Enter your State" required>
+									</div>
+									<div class="col mb-4">
+										<label class="form-label">Pin Code</label>
+										<input class="form-control" name="pincode" type="number" placeholder="Enter Pincode" required>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col mb-4">
+										<label class="form-label">Password</label>
+										<input id="password" class="form-control" name="password" type="password" placeholder="Enter Password" required>
+									</div>
+									<div class="col mb-4">
+										<label class="form-label">Confirm Password</label>
+										<input class="form-control" name="cpassword" type="password" placeholder="Enter Confirm Password" required>
+									</div>
+								</div>
+								
+							
+								<div class="mb-4">
+									<label class="form-label">Profile Image</label>
+									<input class="form-control" name="img" type="file">
+								</div>
+									
+								<div class="mb-3 text-end">
+									<button type="submit" class="btn col-md-12 btn-primary text-white">Register</button>
+								</div>
+										
+							</form>
+						</div>
+						
+						<div class="card-footer text-center">
+							<p>Have an Account? <a href="/login" class="text-decoration-none" >Login to account</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Payment</title>
+</head>
+<body>
+
+    <section>
+        <div class="container p-5">
+            <div class="card p-4 shadow rounded">
+                <h2 class="text-center mb-4">Processing Online Payment</h2>
+    
+                <div class="text-center">
+                    <button id="payBtn" class="btn btn-primary">
+                        Pay Now ₹[[${amount / 100}]]
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script th:inline="javascript">
+            console.log("Razorpay script loaded.");
+    
+            function payNow() {
+                var options = {
+                    "key": [[${razorpayKey}]],
+                    "amount": [[${amount}]],
+                    "currency": "INR",
+                    "name": "Ms SAMYABHI TRADERS",
+                    "description": "Order Payment",
+                    "order_id": [[${razorpayOrderId}]],
+                    "handler": function (response) {
+                        fetch("/user/payment-success", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_signature: response.razorpay_signature,
+                                paidAmount: options.amount / 100
+                            })
+                        })
+                        .then(res => res.text())
+                        .then(data => {
+                            if (data === "Order saved") {
+                                window.location.href = "/user/success";
+                            } else {
+                                alert("Payment failed: " + data);
+                                window.location.href = "/user/cart";
+                            }
+                        });
+                    },
+                    "prefill": {
+                        "name": '[[${userName}]]',
+                        "email": '[[${userEmail}]]',
+                        "contact": '[[${userPhone}]]'
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    },
+                    "method": {
+                        upi: true
+                    }
+                };
+    
+                const rzp = new Razorpay(options);
+                rzp.open();
+            };
+    
+            // ✅ Attach event listener after DOM is ready
+            document.addEventListener("DOMContentLoaded", function () {
+                const payBtn = document.getElementById("payBtn");
+                if (payBtn) {
+                    payBtn.addEventListener("click", payNow);
+                } else {
+                    console.error("Pay Now button not found");
+                }
+            });
+        </script>
+    </section>
+    
+</body>
+</html>

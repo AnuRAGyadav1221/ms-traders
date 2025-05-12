@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+		th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Category Page</title>
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+	<section>
+	
+		<!-- Start Category Mode -->
+		<div class="container-fluid p-5 mt-4">
+			<div class="row p-5">
+			
+				<div class="col-md-4 offset-md-4">
+					
+					<div class="card card-sh">
+
+						<div class="card-header text-center">
+							<p class="fs-4">Edit Category</p>
+							<th:block th:if="${session.sucMsg}">
+								<p class="text-success fw-bold" th:text="${session.sucMsg}"></p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+							</th:block>
+							<th:block th:if="${session.errorMsg}">
+								<p class="text-danger fw-bold" th:text="${session.errorMsg}"></p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+							</th:block>
+
+						</div>
+						
+							<div class="card-body"> 
+								<form action="/admin/updateCategory" method="post" 
+								enctype="multipart/form-data">
+									<input type="hidden" name="id" th:value="${category.id}">
+									<div class="mb-3">
+										<label>Enter Category</label>
+										<input type="text" class="form-control" name="name"
+                                         th:value="${category.name}">
+									</div>
+
+									<div class="mb-3">
+										<label>Status</label>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="isActive" 
+											id="flexRadioDefault1" value="true" th:checked="${category.isActive==true}">
+											<label class="form-check-label" for="flexRadioDefault1">
+											  Active
+											</label>
+										  </div>
+										  <div class="form-check">
+											<input class="form-check-input" type="radio" name="isActive" 
+											id="flexRadioDefault2" value="false" th:checked="${category.isActive==false}">
+											<label class="form-check-label" for="flexRadioDefault2">
+											  Inactive
+											</label>
+										  </div>
+									</div>
+									
+									<div class="mb-3">
+										<label>Upload Image</label>
+										<input type="file" class="form-control" name="file">
+									</div>	
+                                    <img th:src="${category.imageName}" width="60px" height="60px">
+									<button class="btn btn-primary col-md-12 mt-2">Update</button>
+								</form>
+							</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<!-- End Category Mode -->
+		
+	</section>  
+</body>
+</html>
+ 

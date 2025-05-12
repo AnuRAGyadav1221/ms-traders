@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>View Detail Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <section>
+        <div class="container card-sh" style="margin-top: 70px; margin-bottom: 100px">
+            <div class="row">
+                <div class="col-md-12 p-5">
+                   <!-- Success Message Toast -->
+                    <th:block th:if="${session.sucMsg}">
+                        <div class="toast-container position-fixed top-0 end-0 p-3">
+                            <div id="successToast" class="toast show fade" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="toast-header bg-success text-white">
+                                    <strong class="me-auto">Success</strong>
+                                    <small>just now</small>
+                                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                                <div class="toast-body">
+                                    [[${session.sucMsg}]]
+                                </div>
+                            </div>
+                        </div>
+                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                    </th:block>
+
+                    <!-- Error Message Toast -->
+                    <th:block th:if="${session.errorMsg}">
+                        <div class="toast-container position-fixed top-0 end-0 p-3">
+                            <div id="errorToast" class="toast show fade" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="toast-header bg-danger text-white">
+                                    <strong class="me-auto">Error</strong>
+                                    <small>just now</small>
+                                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                                <div class="toast-body">
+                                    [[${session.errorMsg}]]
+                                </div>
+                            </div>
+                        </div>
+                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                    </th:block>
+
+                    <script th:src="@{/js/toast-handler.js}"></script>
+
+                    <div class="text-center">
+                        <img alt="" th:src="${product.image}" width="250px" height="250px">
+                    </div>
+
+                   <!-- Product Info Section -->
+                    <div class="container mt-4">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8 text-center">
+                                <h2 class="fw-bold">[[${product.title}]]</h2>
+
+                                <!-- Product Details -->
+                                <p class="mt-3">
+                                    <span class="fw-bold">Product Details:</span> <br>
+                                    <span>Status: 
+                                        <th:block th:if="${product.stock > 0}">
+                                            <span class="badge bg-success">Available</span>
+                                        </th:block>
+                                        <th:block th:unless="${product.stock > 0}">
+                                            <span class="badge bg-warning">Out of Stock</span>
+                                        </th:block>
+                                    </span>
+                                    <br>
+                                    <span>Category: <strong>[[${product.category}]]</strong></span> <br>
+                                    <span>Policy: <strong>7 Days Replacement & Return</strong></span>
+                                </p>
+
+                                <p class="fs-5 fw-bold mt-2">
+                                    Price: &nbsp; <i class="fas fa-rupee-sign"></i> [[${product.discountPrice}]]
+                                    <span class="fs-6 text-decoration-line-through text-secondary ms-2">[[${product.price}]]</span>
+                                    <span class="fs-6 text-success ms-2">[[${product.discount}]]% off</span>
+                                </p>
+
+                                <!-- Icons Section -->
+                                <div class="row mt-4 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+                                    <div class="col-md-4 text-center">
+                                        <i class="fas fa-money-bill-wave fa-2x text-success"></i>
+                                        <p class="mt-2">Cash On Delivery</p>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <i class="fas fa-undo-alt fa-2x text-danger"></i>
+                                        <p class="mt-2">Return Available</p>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <i class="fas fa-truck-moving fa-2x text-primary"></i>
+                                        <p class="mt-2">Free Shipping</p>
+                                    </div>
+                                </div>
+
+                                <!-- Add to Cart Button -->
+                                <div class="text-center mt-3">
+                                    <th:block th:if="${product.stock > 0}">
+                                        <th:block th:if="${user == null}">
+                                            <a href="/signin" class="btn btn-danger w-50 add-to-cart-btn text-white">Add to Cart</a>
+                                        </th:block>  
+                                
+                                        <th:block th:if="${user != null and user.role != 'ROLE_ADMIN'}">
+                                            <a th:href="@{/user/addCart(pid=${product.id}, uid=${user.id})}" 
+                                               class="btn btn-danger w-50 add-to-cart-btn text-white">
+                                                Add to Cart
+                                            </a>
+                                        </th:block>
+                                
+                                        <th:block th:if="${user != null and user.role == 'ROLE_ADMIN'}">
+                                            <a href="#" class="btn btn-secondary w-50 text-white" style="cursor: not-allowed;" 
+                                               onclick="return false;">Add to cart</a>
+                                        </th:block>
+                                
+                                    </th:block>
+                                
+                                    <th:block th:unless="${product.stock > 0}">
+                                        <a href="#" class="btn btn-warning w-50 add-to-cart-btn text-white">Out of Stock</a>
+                                    </th:block>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <h2>Product Specifications</h2>
+                        <p><strong>Description:</strong> [[${product.description}]]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+		th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+	<link rel="stylesheet" href="/css/style.css">
+	<style>
+	    .card-body {
+			background-color: #fff;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 10px; /* Rounded corners for cards */
+			transition: transform 0.2s ease, color 0.3s ease;
+		}
+	</style>
+</head>
+<body>
+	<section>
+		
+		<!-- Start Slider -->
+		
+		<div id="carouselExample" class="carousel slide p-3" data-bs-ride="carousel" data-bs-interval="2000">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img src="https://mstrader-banner.s3.ap-south-1.amazonaws.com/med_1.jpg" class="d-block w-100" alt="..." height="450px">
+				</div>
+				<div class="carousel-item">
+					<img src="https://mstrader-banner.s3.ap-south-1.amazonaws.com/med_2.jpg" class="d-block w-100" alt="..." height="450px">
+				</div>
+				<div class="carousel-item">
+					<img src="https://mstrader-banner.s3.ap-south-1.amazonaws.com/med_3.jpg" class="d-block w-100" alt="..." height="450px">
+				</div>
+				<div class="carousel-item">
+					<img src="https://mstrader-banner.s3.ap-south-1.amazonaws.com/med_4.jpg" class="d-block w-100" alt="..." height="450px">
+				</div>
+				<div class="carousel-item">
+					<img src="https://mstrader-banner.s3.ap-south-1.amazonaws.com/med_5.jpg" class="d-block w-100" alt="..." height="450px">
+				</div>
+			</div>
+
+			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>		
+		
+		<!-- End Slider -->
+		
+		<!-- Start Category Mode -->
+		<div class="container">
+			<p class="text-center fs-4 category-title">Category</p><hr>
+			<div class="row">
+				
+				<div class="col-md-3" th:each="c:${categories}">
+					<div class="card shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+						<div class="card-body text-center">
+							<img th:src="${c.imageName}" width="65%" height="140px">
+							<p></p>
+							<a th:href="@{'/products?category=' + ${c.name}}" class="btn btn-primary">
+								[[${c.name}]]
+							</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- End Category Mode -->
+		
+		<!-- Start Latest Products -->
+		<div class="container">
+			<p class="text-center fs-4 product-title">Latest Product</p><hr>
+
+			<div class="row">
+			
+				<div class="col-md-3" th:each="p:${products}">
+					<div class="card cat-div shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+						<div class="card-body text-center">
+							<img th:src="${p.image}" width="65%" height="140px">
+							<p class="text-center">[[${p.title}]]</p>
+							
+							<a th:href="@{'/product_view/' + ${p.id}}" class="btn btn-primary add-to-cart-btn">
+								View Details
+							</a>	
+							
+						</div>
+					</div>
+				</div>
+								
+			</div>	
+		
+		</div>
+		<!-- End Latest Products -->
+		
+	</section>  
+</body>
+</html>

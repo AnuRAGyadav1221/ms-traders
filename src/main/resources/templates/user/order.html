@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Order Page</title>
+	
+</head>
+<body>
+	<section>
+		<div class="container p-5">
+            <form action="/user/save-order" method="post" class="p-4 shadow rounded bg-light" id="orderForm">
+
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <p class="text-center fs-3">Billing Address</p>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" id="firstName" name="firstName" class="form-control" required>
+                            </div>
+                            <div class="col">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                            </div>
+                            <div class="col">
+                                <label for="mobileNo" class="form-label">Mobile Number</label>
+                                <input type="number" id="mobileNo" name="mobileNo" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" id="address" name="address" class="form-control" required>
+                            </div>
+                            <div class="col">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" id="city" name="city" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="state" class="form-label">State</label>
+                                <input type="text" id="state" name="state" class="form-control" required>
+                            </div>
+                            <div class="col">
+                                <label for="pincode" class="form-label">Pincode</label>
+                                <input type="number" id="pincode" name="pincode" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- Payment Section -->
+                    <div class="col-md-6">
+                        <p class="text-center fs-3">Payment Option</p>
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td>Total Price</td>
+                                            <td>:</td>
+                                            <td>&#8377; [[${totalOrderPrice}]]</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Delivery Fee</td>
+                                            <td>:</td>
+                                            <td>&#8377; [[${Delivery_fee}]]</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tax</td>
+                                            <td>:</td>
+                                            <td>&#8377; [[${Tax}]]</td>
+                                        </tr>
+                                        <tr class="border-1">
+                                            <td>Total Price</td>
+                                            <td>:</td>
+                                            <strong><td>&#8377; [[${totalOrderPrice + Delivery_fee + Tax}]]</td></strong>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <div class="card shadow-lg p-3 mb-5 mt-2 bg-body-tertiary rounded">
+                            
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <label class="form-label">Select Payment Type</label>
+                                    <Select name="paymentType" class="form-control" required>
+                                        <option>--select--</option>
+                                        <option value="COD">Cash on Delivery</option>
+                                        <option value="ONLINE">Online Payment</option>
+                                    </Select>
+                                </div>
+                                    
+                                <div class="mb-3 text-end">
+                                    <button class="btn col-md-12 btn-primary text-white">Place Order</button>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+		</div>
+	</section>    
+
+</body>
+</html>
